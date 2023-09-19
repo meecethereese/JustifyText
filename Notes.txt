@@ -1,0 +1,446 @@
+Educative.io: JavaScript in Detail: From Beginner to Advanced
+Mini Project #3: Justify Text
+
+Background
+
+Aligning text in a document is one way to make it more beautiful. Documents break text into lines
+as soon as the maximum width of the line is reached. These alignments give the ability to align
+the text to one side of the document. But times, documents have dangling text, empty spaces at the
+end of the lines. This is where justify text alignment comes in.
+
+Introduction to Justify Alignment
+
+Justify text alignment is an alignment that removes as many spaces as possible from the ends of
+the lines. The goal is no spaces at the end of any line, at all so that the resulting document
+looks as follows.
+
+To align text like this is not as easy as it seems. There are many hurdles to making words fit in
+a line of a specific size. To tackle such issues, do this.
+
+Adding extra spaces between words in the sentence
+
+Breaking long words down: “environment” into “enviro-” and "nment"
+
+However, using either approach carelessly leads to an ugly-looking sentence and document. To avoid
+that, we compute costs and use the combination with the minimum cost.
+
+In this project, we will justify text in JavaScript to get more hands-on experience.
+
+Problem Description
+
+A documentation company MoogleSoft is working on new, user-requested features. One requested
+feature is document alignments. Engineers are working on adding alignments “Center,” “Left,” and
+“Right.” But the engineers can’t figure out how to let users justify text. Your job is to
+implement justify text features in JavaScript for this company!
+
+Task
+
+Use your JavaScript knowledge to help a given textual string break down into an array of lines so
+that each line is justified.
+
+Challenge: Throughout this project, you can solve anything with functional programming: either
+using methods or recursion. Here, implement all solutions using either recursion or methods
+available in JavaScript. Avoid using any loops.
+
+Cheat Sheet
+
+This cheat sheet is a quick overview of some tips and tricks for the project. Feel free to drop
+by and refer to these tricks to make your tasks quicker, but don’t spend too much time doing
+trivial tasks right now.
+
+Array Destructuring
+
+You can destructure an array by assigning it to some pattern of variables like this.
+
+var arr = [1, 2, 3];
+// the array pattern would be matched to the assigned pattern at declaration
+var [one, two, three] = arr;
+
+JavaScript can unpack arrays using this trick for destructuring arrays.
+
+Additionally, we can use the rest ... operator. The rest ... operator assigns the remaining
+elements of the array to a variable as follows.
+
+var arr = [1, 2, 3, 4, 5, 6];
+// the array pattern would be matched to the assigned pattern at declaration
+var [one, two, ...rest] = arr;
+
+The code above shows the same unpacking. We can assign the remaining array to a variable (in this
+case rest) using the ... operator. Play around with the code to test it out.
+
+String Methods
+
+Because the project deals with many strings, use methods like match and replace to alter your
+string.
+
+var str = "HelloWorld."
+// match non alphabet characters
+var nonAlpha = str.match(/[^A-Za-z]/g);
+
+// replace non alphabet characters with ""
+var replaceAlpha = str.replace(/[^A-Za-z]/g, "");
+
+console.log("nonAlpha:", nonAlpha);
+console.log("replaceAlpha:", replaceAlpha);
+
+These methods are essential when making alterations to strings in the project. Furthermore, you
+can join strings as follows.
+
+var str1 = "HelloWorld.";
+var str2 = "Cool";
+// use concat:
+var merge1 = str1.concat(str2); // str1 + str2
+var merge2 = str1 + str2;
+
+Meanwhile, concatenating an array of strings is done with the join method as follows.
+
+var arr = ["hello", "world", "!"];
+console.log(arr.join(' '));
+console.log(arr.join());
+console.log(arr.join('.'));
+console.log(arr.join('|'));
+
+Or split them back to an array using the split method like this.
+
+var str = "Hello World !"
+
+console.log(str.split(' ')); // split on spaces
+console.log(str.split('l')); // split on character l
+console.log(str.split('World')); // split on 'World' string
+
+The split method, along with join, can help move strings between arrays throughout the project.
+
+Reduce Dimension of an Array
+
+Sometimes using a map method of an array results in an array of arrays that you might need to
+convert back to a single-dimensional array. Do this using the reduce method.
+
+var arr = [[1],[2], [3,4], [5]];
+
+var flatArr1 = arr.reduce((prev,curr)=> [...prev, ...curr],[]);
+var flatArr2 = arr.reduce((prev,curr)=> prev.concat(curr),[]);
+
+console.log(flatArr1);
+console.log(flatArr2);
+
+The two approaches work the same. Focus on the callback function for a better idea of what’s
+happening.
+
+Another approach is using destructuring techniques directly as follows for smaller arrays.
+
+var arr = [[1, 2], [3, 4, 5]];
+
+var flatArr1 = [...arr[0], ...arr[1]]
+
+var flatArr2 = arr[0].concat(arr[1]);
+
+console.log(flatArr1);
+console.log(flatArr2);
+
+In the previous two examples, the ... operator acts as a spread operator which spreads the
+content of the array.
+
+Comparing Two Arrays
+
+A neat technique to compare two ordered arrays is JSON.stringify. This converts them to strings
+and compares them.
+
+var arr1 = [1, 2, 3, 4, 5];
+var arr2 = [1, 2, 3, 4, 5];
+console.log(arr1 == arr2, arr1 === arr2);
+// Comparing using JSON.stringify
+console.log(JSON.stringify(arr1) === JSON.stringify(arr2));
+
+This works because JSON.strigify uses the same format to pad and depends on the order of the
+array. The following case would fail, despite the two arrays having the same values, because of
+the difference in ordering.
+
+var arr1 = [1, 2, 3, 4, 5];
+var arr2 = [5, 2, 3, 4, 1];
+console.log(arr1 == arr2, arr1 === arr2);
+// Comparing using JSON.stringify
+console.log(JSON.stringify(arr1) === JSON.stringify(arr2));
+
+Such cases can be catered by sorting arrays. For arrays, where the order is maintained, this
+technique is useful.
+
+Removing Duplicates from Arrays
+
+A technique to remove duplicate ordered arrays in an array is the following combination:
+
+Array.from(new Set(arr.map(JSON.stringify)), JSON.parse);
+
+This leverages our previous technique by feeding an array of strings to Set constructor. This
+creates an object with no duplicates. Creating an array from it gives an array without
+duplicates. While creating the new array without duplicates, use JSON.parse to revert the strings
+back to the arrays.
+
+var arr = [
+  [1, 2, 3, 4],
+  [1, 2, 3, 4], // duplicate
+  [1, 2, 3, 4], // duplicate
+  [1, 2],
+  [1, 2], // duplicate
+];
+// remove duplicates:
+arr = Array.from(new Set(arr.map(JSON.stringify)), JSON.parse);
+console.log(arr);
+
+In the end, we have an array of arrays without duplicates.
+
+Check for Key in an Object
+
+To check if an object has a certain key, use hasOwnProperty() method.
+
+var obj = {a: 1, b: 2, c: 3};
+
+console.log(obj.hasOwnProperty('a'));
+console.log(obj.hasOwnProperty('b'));
+console.log(obj.hasOwnProperty('z'));
+
+This technique is a convenient way of confirming if a key is a property name of an object.
+
+Step 1: Split Line
+
+In this task, we will split a line by a certain width. A document consists of lines where each
+line is of a certain width. So, we split lines with respect to the width to maintain the length
+of the line to the width of the document.
+
+Problem statement
+Throughout the project, a representation of the line is done via an array of words.
+
+var text =  'He who controls it';
+
+The representation of the line is this.
+
+var line = ['He', 'who', 'controls', 'it'];
+
+With the above representation, implement the function splitLine that takes the following inputs
+as arguments.
+
+// input
+var line = ['He', 'who', 'controls', 'it'];
+var width = 15;
+
+Using the two arguments, split line into an array containing two lines where the first line
+satisfies the width as follows.
+
+// output
+[['He', 'who', 'controls'], ['it']]
+
+From the sample output, see that the length of the first line is:
+
+length of 'He': 2
+length of 'who': 3
+length of 'controls': 8
+two implicit spaces: 2
+
+The total length sums up to 15. Adding 'it' to the first line would make it 18 by adding the
+length of 'it' and one implicit space that exceeds the target length of 15.
+
+Complete the function splitLine that returns an array with two sub-arrays. The first sub-array
+meets the width constraint and the second consists of the remaining elements.
+
+Step 2: Line Breaks
+
+In this task, we will split a line by a certain width and introduce the hyphenation of a word so
+a word can be split into parts. It is important while justifying text to add as many characters
+in the line as possible. Use a dictionary to break the first word of the second part of the line 
+and incorporate it at the end of the first line in as many parts as possible.
+
+Problem statement
+Throughout the project, a representation of the dictionary is done via an object. Keys are words
+that can be broken down. Values are the broken pieces of the word as follows.
+
+var enHyp = {
+  "creative" : ["cr","ea","ti","ve"],
+  "controls" : ["co","nt","ro","ls"],
+  "achieve" : ["ach","ie","ve"],
+  "future" : ["fu","tu","re"],
+  "present" : ["pre","se","nt"],
+  "motivated" : ["mot","iv","at","ed"],
+  "desire" : ["de","si","re"],
+  "others" : ["ot","he","rs"],
+}
+With the above representation, use and implement the function lineBreaks that will take the
+following three inputs as arguments.
+
+// input
+var dict = enHyp;
+var width = 15;
+var line = ['He', 'who', 'controls,', 'it'];
+
+Using the three arguments, split line into an array containing two lines. Create combinations of
+all possible hyphenations while maintaining the constraint by width.
+
+// output
+[
+    [['He', 'who'], ['controls,', 'it']],
+    [['He', 'who', 'co-'], ['ntrols,', 'it']],
+    [['He', 'who', 'cont-'], ['rols,', 'it']],
+]
+
+From the sample output, the output an array contains all possible splitting of line. The breaking
+of words is done after initially splitting the line. If 'controls', fit in the first part of the
+line, then look up 'it' in dict and see if you can break that, to add to your combinations.
+
+For breaking a word in the second part of the line, the following points must be followed.
+
+Add hyphen '-' at the end of each substring of the word added into the first part of the line.
+Words can have trailing punctuation marks (',' and '.' only). Make sure they are not stripped off
+in your final answer.
+
+Only words in dict can be broken down.
+
+Parts of the word can be added in the first subarray of the line if it meets the width constraint.
+
+With the above rules in mind, complete the function lineBreaks that returns an array of arrays
+containing two sub-arrays. The first sub-array meets the width constraint and the second sub-
+array consists of the remaining elements, while incorporating all possible hyphenated words.
+
+Step 3: Line Cost
+
+Using previous functions, we end up with many line combinations. Some use hyphenated words; others
+use spaces. In this task, we establish a function that calculates the cost of using either
+approach. Then, we can choose combinations of lines that have the minimum cost and look good.
+
+Problem statement
+In this task, use and implement the function lineCost that will take the following input as an
+argument.
+
+// input
+var line = ["He"," ","who"," ","contro-"];
+Using the line argument, compute the cost like this.
+
+// output
+7
+The cost of the line uses the following global variables.
+
+const blankCost = 1.0
+const blankProxCost = 1.0
+const blankUnevenCost = 1.0
+const hypCost = 1.0
+Where each variable is:
+
+blankCost: the cost of introducing each blank in the list
+blankProxCost: the cost of having blanks close to each other
+blankUnevenCost: the cost of having blanks spread unevenly
+hypCost: the cost of hyphenating the last word in the list
+With the above variables, use the following formula.
+
+var totalCost = (blankCost * totalBlanks)
+  + (blankProxCost * (arrLength - avgDist)
+  + (blankUnevenCost * varainceDist)
+  + (hypCost * totalHyphens);
+Where:
+
+totalBlanks: total number of blanks introduced
+arrLength: the length of the array of the line
+avgDist: average distance between blanks
+varianceDist: variance of the distances between blanks
+totalHyphens: Total number of hyphens
+So, for our earlier example:
+
+// input
+var line = ["He"," ","who"," ","contro-"];
+The value of totalBlanks is 2 as only two blanks were introduced. Meanwhile, the arrLength is 5 as
+that is the number of elements in the line. Lastly, the totalHyphens is 1, the number of hyphens in
+line.
+
+To calculate avgDist and varianceDist for spaces, create a new array of numbers which represents
+positions of space character ' ' relative to one another and the end of the line.
+
+var spacePos = [1, 1, 1]
+Each number in the array represents the number of elements in line skipped before encountering a
+space character. The last element represents the number of words skipped, after which the line
+ended. Another example is here.
+
+var line = ["He", " ", " ", "who", "controls"]
+var spacePos = [1, 0, 2];
+
+avgDist: average of spacePos, sum of all terms divided by the number of terms in spacePos
+
+varianceDist: variance of spacePos, sum of all squared differences between average (avgDist) and
+term, divided by the number of terms in spacePos
+
+Using these values and the formula gives you the cost.
+
+Complete the function lineCost that returns a number representing the cost for a given line line.
+
+Step 4: Best Line Break
+
+In this task, use functions from previous parts to break a given line, maximizing its length, and
+returning the line with minimum cost using a cost function. This task will give the best justified
+line as per our cost function.
+
+Problem statement
+Implement the function bestLineBreak that will take the following four inputs as arguments.
+
+// input
+var lineCostFunc = lineCost;
+var dict = enHyp;
+var width = 12;
+var line = ['He', 'who', 'controls', 'it'];
+
+Using the four arguments, split line into an array containing two lines. The first sub-array meets
+the width constraint and has the minimum cost, per the lineCostFunc.
+
+// output
+[["He", "who", "cont-"], ["rols", "it"]]
+
+Take the following steps to create all possible line combinations.
+
+Use lineBreaks function to split line according to the width, with all possible incorporation of
+hyphenated broken words using dict.
+
+Use blankInsertions function on all first parts of the line output from lineBreaks function to add
+spaces so that all lines have spaces equivalent to the width constraint.
+
+Complete the function bestLineBreak that returns an array containing two sub-arrays. The first sub-
+array meets the width constraint with least cost as per the lineCostFunc and maximum length. The
+second sub-array consists of the remaining elements.
+
+Step 5: Justify Text
+
+Task
+In this task, use functions from previous parts to justify a given string. Implement the final
+function that will return our representation of justified text from a long string.
+
+Problem statement
+Implement the function justifyText that takes the following four inputs as arguments.
+
+// input
+var lineCostFunc = lineCost;
+var dict = enHyp;
+var width = 12;
+var text = "He who controls the past controls the future. He who controls the present controls the
+past.";
+
+Using the four arguments, use previously written functions to get the following output.
+
+// output
+[
+  [ 'He', 'who', 'controls' ],
+  [ 'the', 'past', ' ', 'cont-' ],
+  [ 'rols', 'the', ' ', 'futu-' ],
+  [ 're.', 'He', ' ', 'who', 'co-' ],
+  [ 'ntrols', 'the', 'pre-' ],
+  [ 'sent', ' ', ' ', 'controls' ],
+  [ 'the', 'past.' ],
+]
+
+The output can be translated as follows.
+
+He who controls
+the past  cont-
+rols the  futu-
+re. He  who co-
+ntrols the pre-
+sent   controls
+the past.
+
+The task doesn’t require you to print the output like this.
+
+Complete the function justifyText that returns an array containing sub-arrays. Each represents a
+justified line whose length is contained by width and each is of the least cost per lineCostFunc
+function. The last line will not be justified, but added as is.

@@ -1,0 +1,161 @@
+Solution to Sub-task: Split Line
+
+The solution takes a recursive approach where the base cases are:
+
+When the length of line is zero
+
+When the width value is zero
+
+When the first element of line is greater than width
+
+For each case, return the results accordingly. For the recursive case, update the width and remove
+the first element of line and call splitLine recursively. The result should have our perfectly
+split line for the new width specified, which is the width minus the length of the element removed
+and one extra value for space. Finally, insert the removed value back to the start of the result
+splitLine and return it. This solves our part recursively.
+
+Solution to Sub-task: Line Breaks
+
+In this solution, first split the line according to its width using the splitLine function from the
+previous part. Our base-case or corner case in this function are:
+
+The length of the second part of the line after splitLine function is zero.
+
+Next, try to break and hyphenate the first element in the second part of the line (sndPart). Take
+the first element of the second part of the line, strip punctuation marks if any, and check if it
+exists in the dictionary dict object. If it does, use the value in dict and our helper function
+getPermutations to give all combinations of pairs of the broken words. getPermutations works as
+follows.
+
+Take an array with two subarrays, each holding a part of the word. Initialize our left subarray to
+be zero.
+
+It checks if the second subarray is empty or not, which is the base case and terminates recursion.
+
+Otherwise, its recursive case shifts one element from right to left and calls itself recursively
+for the new array of subarrays, which then returns all combinations from then onwards.
+
+It then appends its new array of subarrays to the combinations and returns.
+
+Now, we have all combinations of broken pairs of the word which we concatenate and hyphenate. Then
+add the punctuation mark we stripped off at the end of the second half. Add the remaining words to
+the two halves of the line, ending with a series of split lines with broken words. Then filter all
+lines that exceed the width, ending with the correct combinations, which we return.
+
+Solution to Sub-task: Blank Insertions
+
+Solve this solution recursively, where our base cases are as follows.
+
+Number of spaces num that we need to add is zero
+
+Length of the line is less than or equal to one, and no spaces are added
+
+Meanwhile, for our recursive case, recursively call the same function blankInsertions to add one
+less blank and give us combinations for num - 1 spaces. Add exactly one blank in all possible
+positions for each combination using the map function and recursive helper function
+singleBlankInsert. The singleBlankInsert function works like this.
+
+It has the following base cases:
+
+line length is two; it adds one space in the middle
+
+line length is less than or equal to one, when it cannot add any spaces and so returns
+
+For its recursive case:
+
+Removes the first element from the line
+
+Recursively calls itself to add spaces in different positions for the remaining line
+
+Reattaches the removed element to all combinations returned as is
+
+Adds a new combination that is the first element followed by a space, the remaining elements, and
+then returns these combinations.
+
+Using the above function, we have all combinations of single blanks which we keep adding for each
+recursive call in blankInsertions function. Fix the dimensions after mapping using reduce and
+return a new array without any duplicates.
+
+Solution to Sub-task: Line Cost
+
+In this solution, we rely on calculating multiple values using multiple variables for line. Take
+into account explicitly introduced placement of space character ' ' in the line line, for which the
+solution uses the helper function blankPlacements. Use recursion to get these placements in the
+function with the following properties.
+
+The base case is used when the length of line is zero, which is the end of the line, and so return
+an array with the current position.
+
+For the recursive case, destructure the line to extract the first element and call recursion
+according to the two following cases.
+
+If the first element is the space character ' ', reset the position variable to 0 and recursively
+call the function for the remaining elements’ space character positions. Return an array with the
+returned positions and the current position value.
+
+If the first element is not the space character ' ', call the function for remaining elements while
+incrementing the position value and returning its result.
+
+The function blankPlacements returns the positions of ' ' required for our line. We assign that to
+the blankPositions variable. For the final result, take the sum of the following return.
+
+Take count of explicit blanks in line and multiply it by the global variable blankCost.
+
+Take the product of the global variable blankProxCost with the difference of length of line with
+the average of values of blankPlacements variable.
+
+Take the product of the global variable blankUnevenCost with the variance of values of
+blankPlacements variable.
+
+Take count of hyphens in line and multiply it by the global variable hyphenCount.
+
+Solution to Sub-task: Best Line Break
+
+In this solution, take a line and do the following.
+
+Use lineBreaks function to split the line line and give all possible splits while incorporating
+broken-hyphenated words via dict.
+
+For each possible split from lineBreaks function, insert explicit banks in every possible manner so
+the length of the first part of each line is as long as the width using blankInsertions function.
+
+Get the maximum length of all lines and filter out lines with the maximum lengths. The length of
+each line is calculated using our helper function lineLength which caters to explicit and implicit
+spaces, because only two words can have implicit space between them. The lineLength function
+recursively calculates the length like this.
+
+The base cases are as follows.
+
+When the length of line is zero, return 0.
+
+When the length of line is one, return the length of the element.
+
+The recursive cases are here.
+
+When the first element is a space character ' ', return 1 (length of the blank) plus the recursive
+solution for the remaining elements of the line.
+
+When the first element is not a space character ' ', return sum of 1 (length of the implicit
+blank), the length of the first element, and the recursive solution for the remaining elements of
+the line.
+
+For the lines with the maximum length, find the line with the minimum cost, according to the
+lineCostFunc function.
+
+Solution to Sub-task: Justify Text
+
+Here, recursively call the bestLineBreak function to continuously break the line in the optimal way
+after splitting the string text into our representation of line. Use the .split( ) method and
+return it. The helper function justifyTextRecur is a recursive function and works like this.
+
+The function breaks the line text using the bestLineBreak function and destructures it into two
+parts.
+
+The base case is when the second part’s length is zero where it returns the text in an array
+because we don’t want to justify the last line.
+
+In the recursive case, it recursively calls itself for the second part of the line so the remaining
+line is justified. The solution is appended into the array in which the first element is the
+initial first part that we got.
+
+The solution from the recursive function is returned in our justifyText function.
